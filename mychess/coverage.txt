@@ -1,0 +1,20 @@
+Name                                                    Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------------
+models/__init__.py                                          0      0   100%
+models/admin.py                                             1      0   100%
+models/api.py                                              84      3    96%   72-74, 134
+models/apps.py                                              4      0   100%
+models/consumers.py                                       121      9    93%   22, 27-31, 45-47
+models/migrations/0001_initial.py                          10      0   100%
+models/migrations/0002_alter_chessgame_timecontrol.py       4      0   100%
+models/migrations/0003_alter_chessgame_timecontrol.py       4      0   100%
+models/migrations/0004_remove_player_name.py                4      0   100%
+models/migrations/__init__.py                               0      0   100%
+models/models.py                                           47      0   100%
+models/routing.py                                           3      3     0%   1-4
+models/serializers.py                                      14      0   100%
+models/tests/__init__.py                                    0      0   100%
+models/urls.py                                              3      0   100%
+models/views.py                                             1      1     0%   1
+-------------------------------------------------------------------------------------
+TOTAL                                                     300     16    95%
