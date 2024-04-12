@@ -16,7 +16,7 @@
 
 <script>
 import { ref }  from 'vue';
-import { useTok } from '@';
+import { useTokenStore } from '@/stores/token';
 
 export default {
     name: 'LogIn',
@@ -33,6 +33,8 @@ export default {
             const store = useTokenStore();
             
             try{
+                //fetch returns a Promise that resolves to a Response object
+                // token/login is defined by djoser
                 const response = await fetch(baseUrl + 'token/login', {
                     method: 'POST',
                     headers: {
@@ -40,18 +42,36 @@ export default {
                         'Content-Type': 'application/json'
                         // 'Authorization': 'token' + store.token
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(formData),
                 });
                 const data = await response.json();
+
+                if (!response.ok) {
+                    // handle errors here
+                    throw new Error(data.detail);
+                }
+
+                if (data && data.auth_token) {
+                    store.setToken(data.auth_token);
+                } else {
+                    console.log('Error: Authentication token not found.');
+                }
                 
+            } catch (error) {
+                // handle errors here
+                console.error('Error:', error);
             }
+            
+            // En caso de exito el usuario debe ser redirigido creategame
+            router.push('/creategame');
         
-        }
-    }
-
-        
-}
-    
-
-
+        };
+        // return reactive variables
+        return {
+            username,
+            password,
+            logIn
+        };
+    }, // setup end
+}; // default end
 </script>
