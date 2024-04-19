@@ -1,14 +1,16 @@
 <template>
     <div>
-        <div class="form">
+        <div class="img">
             <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
-            <h1>myChess Sign Up page</h1>
-            <form @submit.prevent="signUp" class="form">
-                <input type="email" id="email" v-model="email" required placeholder="Email address"/>
-                <input type="password" id="password" v-model="password" required placeholder="Password"/>
-                <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="Confirm Password"/>
-                <button type="submit">SIGN UP</button>
-            </form>
+            <div class ="form">
+                <h1>myChess Sign Up page</h1>
+                <form @submit.prevent="signUp" class="form">
+                    <input type="email" id="email" v-model="email" required placeholder="Email address"/>
+                    <input type="password" id="password" v-model="password" required placeholder="Password"/>
+                    <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="Confirm Password"/>
+                    <button type="submit">SIGN UP</button>
+                </form>
+            </div>
         </div>
     </div>
 </template>
@@ -29,7 +31,9 @@ export default {
         const signUp = async () => {
             const formData = {
                 username: email.value,
-                password: password.value
+                email: email.value,
+                password: password.value,
+                confirmPassword: confirmPassword.value
             };
 
             if (password.value !== confirmPassword.value) {
@@ -80,6 +84,11 @@ export default {
 
 
 <style scoped>
+.img {
+    display: flex;
+    justify-content: space-between;
+}
+
 .container {
     display: flex;
     justify-content: center;
