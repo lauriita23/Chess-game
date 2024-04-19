@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form">
-            <h1>Log IN</h1>
+            <h1>Log In</h1>
             <form @submit.prevent="logIn">
                 <input type="username" id="username"
                     v-model="username" required/>
@@ -29,18 +29,18 @@ export default {
                 username: username.value,
                 password: password.value
             };
-            const baseUrl = 'http://localhost:8000/api/v1';
+            const baseUrl = process.env.VUE_APP_BASE_URL;
             const store = useTokenStore();
             
             try{
                 //fetch returns a Promise that resolves to a Response object
                 // token/login is defined by djoser
-                const response = await fetch(baseUrl + 'token/login', {
+                const response = await fetch(baseUrl + 'token/log-in', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                        // 'Authorization': 'token' + store.token
+                        'Content-Type': 'application/json',
+                        //'Authorization': 'token' + store.token
                     },
                     body: JSON.stringify(formData),
                 });

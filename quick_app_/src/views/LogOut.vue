@@ -9,7 +9,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import useTokenStore from '@/stores/tokenStore';
+import { useTokenStore } from '@/stores/token';
 
 export default {
     name: 'LogOut',

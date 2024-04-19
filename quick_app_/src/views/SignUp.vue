@@ -1,12 +1,13 @@
 <template>
     <div>
         <div class="form">
-            <h1>Sign Up</h1>
-            <form @submit.prevent="signUp">
-                <input type="email" id="email" v-model="email" required/>
-                <input type="password" id="password" v-model="password" required/>
-                <input type="password" id="confirmPassword" v-model="confirmPassword" required/>
-                <button type="submit">Sign Up</button>
+            <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
+            <h1>myChess Sign Up page</h1>
+            <form @submit.prevent="signUp" class="form">
+                <input type="email" id="email" v-model="email" required placeholder="Email address"/>
+                <input type="password" id="password" v-model="password" required placeholder="Password"/>
+                <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="Confirm Password"/>
+                <button type="submit">SIGN UP</button>
             </form>
         </div>
     </div>
@@ -38,11 +39,10 @@ export default {
             }
             
             const baseUrl = process.env.VUE_APP_BASE_URL;
-            // const baseUrl = 'http://localhost:8000/api/v1';
-            const store = useTokenStore(); // no se si hace falta ?? 
+            // const store = useTokenStore(); // no se si hace falta ?? 
 
             try {
-                const response = await fetch(baseUrl + 'signup/', {
+                const response = await fetch(baseUrl + 'sign-up/', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -64,7 +64,7 @@ export default {
             }
 
             // If the operation has been completed successfully, redirect to the login page
-            router.push('/login');
+            router.push('/log-in');
         };
 
         return {
@@ -77,3 +77,42 @@ export default {
     }, // setup end
 }; // default end
 </script>
+
+
+<style scoped>
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+}
+
+.left-image {
+    width: 50%;
+    margin-right: 20px; 
+}
+
+.content {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+.form input,
+.form button {
+    margin-bottom: 10px;
+    width: 100%;
+    border-radius: 20px;
+}
+
+.form button {
+    background-color: blue;
+    color: white;
+}
+</style>
