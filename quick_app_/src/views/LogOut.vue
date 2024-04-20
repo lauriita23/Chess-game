@@ -18,7 +18,7 @@ export default {
         const store = useTokenStore();
 
         const logOut = async () => {
-            const baseUrl = process.env.VUE_APP_BASE_URL;
+            const baseUrl = import.meta.env.VUE_APP_BASE_URL;
             // const baseUrl = 'http://localhost:8000/api/v1';
             try {
                 const response = await fetch(baseUrl + '/log-out', {
@@ -48,7 +48,7 @@ export default {
 
                 // Redirect to home page after 5 seconds
                 setTimeout(() => {
-                    router.push('/');
+                    router.push('http://localhost:5173/log-in');
                 }, 5000);
 
             } catch (error) {

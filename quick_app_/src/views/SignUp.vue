@@ -22,7 +22,6 @@ import { useRouter } from 'vue-router';
 export default {
     name: 'SignUp',
     setup() {
-        const username = ref('');
         const email = ref('');
         const password = ref('');
         const confirmPassword = ref('');
@@ -30,7 +29,6 @@ export default {
 
         const signUp = async () => {
             const formData = {
-                username: email.value,
                 email: email.value,
                 password: password.value,
                 confirmPassword: confirmPassword.value
@@ -42,11 +40,11 @@ export default {
                 return;
             }
             
-            const baseUrl = process.env.VUE_APP_BASE_URL;
+            const baseUrl = 'http://127.0.0.1:8000/api/v1';
             // const store = useTokenStore(); // no se si hace falta ?? 
 
             try {
-                const response = await fetch(baseUrl + 'sign-up/', {
+                const response = await fetch(baseUrl + '/sign-up', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -72,7 +70,6 @@ export default {
         };
 
         return {
-            username,
             email,
             password,
             confirmPassword,

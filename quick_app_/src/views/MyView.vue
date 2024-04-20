@@ -21,7 +21,7 @@ export default {
             // do not hard code URLs
             // read them from the enviroment
             
-            const baseUrl = process.env.VUE_APP_BASE_URL;
+            const baseUrl = import.meta.env.VUE_APP_BASE_URL;
             // const baseUrl = 'http://localhost:8000/api/v1';
             const store = useTokenStore();
 

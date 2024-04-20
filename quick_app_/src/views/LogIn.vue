@@ -3,8 +3,8 @@
         <div class="form">
             <h1>Log In</h1>
             <form @submit.prevent="logIn">
-                <input type="username" id="username"
-                    v-model="username" required/>
+                <input type="email" id="email"
+                    v-model="email" required/>
                 <input type="password" id="password"
                     v-model="password" required/>
                 <button type="submit">Log In</button>
@@ -13,34 +13,35 @@
     </div>
 </template>
 
-
 <script>
 import { ref }  from 'vue';
+import { useRouter } from 'vue-router';
 import { useTokenStore } from '@/stores/token';
 
 export default {
     name: 'LogIn',
     setup() {
-        const username = ref('');
+        const email = ref('');
         const password = ref('');
+        const router = useRouter();
 
         const logIn = async () => {
-            const fromData = {
-                username: username.value,
+            const formData = {
+                username: email.value,
                 password: password.value
             };
-            const baseUrl = process.env.VUE_APP_BASE_URL;
+            const baseUrl = 'http://127.0.0.1:8000/api/v1';
+            console.log("Valor de VUE_APP_BASE_URL:", baseUrl);
+            console.log("Valor de formData:", formData);
             const store = useTokenStore();
-            
+          
             try{
-                //fetch returns a Promise that resolves to a Response object
-                // token/login is defined by djoser
-                const response = await fetch(baseUrl + 'token/log-in', {
+                const response = await fetch(baseUrl + '/token/login', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        //'Authorization': 'token' + store.token
+                        // 'Authorization': 'token' + store.token
                     },
                     body: JSON.stringify(formData),
                 });
@@ -53,6 +54,8 @@ export default {
 
                 if (data && data.auth_token) {
                     store.setToken(data.auth_token);
+                    // En caso de exito el usuario debe ser redirigido creategame
+                    router.push('/creategame');
                 } else {
                     console.log('Error: Authentication token not found.');
                 }
@@ -61,17 +64,14 @@ export default {
                 // handle errors here
                 console.error('Error:', error);
             }
-            
-            // En caso de exito el usuario debe ser redirigido creategame
-            router.push('/creategame');
-        
         };
-        // return reactive variables
+        
+        // return reactive variables and functions
         return {
-            username,
+            email,
             password,
             logIn
         };
-    }, // setup end
-}; // default end
+    }
+};
 </script>
