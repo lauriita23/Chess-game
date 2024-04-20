@@ -16,6 +16,10 @@ const router = createRouter({
             component: LogIn
         },
         {
+            path: '/',
+            redirect: '/log-in'
+        },
+        {
             path: '/my-view',
             name: 'MyView',
             component: MyView

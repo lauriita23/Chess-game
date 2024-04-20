@@ -40,7 +40,7 @@ export default {
                 return;
             }
             
-            const baseUrl = 'http://127.0.0.1:8000/api/v1';
+            const baseUrl = import.meta.env.VUE_APP_BASE_URL;
             // const store = useTokenStore(); // no se si hace falta ?? 
 
             try {
@@ -66,6 +66,7 @@ export default {
             }
 
             // If the operation has been completed successfully, redirect to the login page
+            alert('User created successfully!')
             router.push('/log-in');
         };
 

@@ -30,7 +30,8 @@ export default {
                 username: email.value,
                 password: password.value
             };
-            const baseUrl = 'http://127.0.0.1:8000/api/v1';
+            
+            const baseUrl = import.meta.env.VUE_APP_BASE_URL;
             console.log("Valor de VUE_APP_BASE_URL:", baseUrl);
             console.log("Valor de formData:", formData);
             const store = useTokenStore();
