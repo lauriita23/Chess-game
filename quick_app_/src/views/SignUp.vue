@@ -18,6 +18,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useTokenStore } from '@/stores/token';
 
 export default {
     name: 'SignUp',
@@ -30,6 +31,7 @@ export default {
         const signUp = async () => {
             const formData = {
                 email: email.value,
+                username: email.value,
                 password: password.value,
                 confirmPassword: confirmPassword.value
             };
@@ -40,25 +42,31 @@ export default {
                 return;
             }
             
-            const baseUrl = import.meta.env.VUE_APP_BASE_URL;
-            // const store = useTokenStore(); // no se si hace falta ?? 
+            // const baseUrl = import.meta.env.VUE_APP_BASE_URL;
+            const baseUrl = 'http://127.0.0.1:8000/api/v1';
 
             try {
-                const response = await fetch(baseUrl + '/sign-up', {
+                const response = await fetch(baseUrl + '/users', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify({email: formData.email.value, username: formData.email.value, password: formData.password.value}),
                 });
 
-                const data = await response.json();
+                
 
                 if (!response.ok) {
                     // handle errors here
                     throw new Error(data.detail);
                 }
+
+                const data = await response.json();
+                const email = data.email;
+                
+                const store = useTokenStore(); // no se si hace falta ?? 
+                store.email = email;
 
             } catch (error) {
                 // handle errors here

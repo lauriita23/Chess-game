@@ -5,7 +5,8 @@ export const useTokenStore = defineStore("tokens",
     // id : 'token',
     state: () => ({
         token: null,
-        isAuthenticated: false
+        isAuthenticated: false,
+        email: null
     }),
     actions: {
         setToken(token) {
