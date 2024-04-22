@@ -51,7 +51,7 @@ export default {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({status: , board_state: , id: this.gameID }),
+                        //body: JSON.stringify({status: , board_state: , id: this.gameID }),
                         // status, board state, end time.....???
                     });
                     const newGame = await response.json();

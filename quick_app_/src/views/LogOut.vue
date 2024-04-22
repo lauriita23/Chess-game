@@ -1,13 +1,14 @@
 <template>
-    <div>
-        <h1>LogOut</h1>
-        <p>Are you sure you want to logout?</p>
-        <button @click="logOut">Logout</button>
-    </div>
+    <div class="container">
+            <div class="form">
+                <h1 class="title">Log Out</h1>
+                <p>Are you sure you want to logout?</p>
+                <button @click="logOut">Logout</button>
+            </div>
+        </div>
 </template>
 
 <script>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTokenStore } from '@/stores/token';
 
@@ -44,7 +45,8 @@ export default {
                 store.clearToken();
 
                 // Redirect to logout success page
-                router.push('/logout-success');
+                alert("You have been logged out successfully.")
+                router.push('/log-in');
 
                 // Redirect to home page after 5 seconds
                 setTimeout(() => {
@@ -60,3 +62,40 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form {
+    width: 50%;
+}
+
+.form p {
+    margin-bottom: 20px;
+}
+
+.form button {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: rgb(0, 0, 255);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.form button:hover {
+    background-color: rgb(0, 0, 139);;
+}
+
+.title {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+</style>
