@@ -33,6 +33,7 @@ export default {
 
     submitForm() {
         if (this.selectedGameType === 'joinAny') {
+
             // Check if there are available games with a missing player
             if (ChessGame.objects.filter(id=gameID).exists() == false) {
                 // New game is created if no available games are found
@@ -40,6 +41,35 @@ export default {
             } else {
                 // Add player to existing game
                 ChessGame.objects.filter(id=gameID).update(player2=player)
+            }
+        } else if (this.selectedGameType === 'joinSpecific') {
+            // This is a non-functional option
+            return;
+        }
+    },
+
+    async submitForm() {
+        if (this.selectedGameType === 'joinAny') {
+            const baseUrl = 'http://127.0.0.1:8000/api/v1';
+            // Check if there are available games with a missing player
+            const response = await fetch(baseUrl + '/ws/play/' + this.gameID);
+            const game = await response.json();
+
+            if (!game) {
+                // New game is created if no available games are found
+                const response = await fetch('/games/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: this.gameID }),
+                    // status, board state, end time.....
+                });
+                const newGame = await response.json();
+                console.log('Created new game:', newGame);
+            } else {
+                // Add player to existing game
+                // This will depend on how your API is set up
             }
         } else if (this.selectedGameType === 'joinSpecific') {
             // This is a non-functional option

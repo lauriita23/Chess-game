@@ -38,8 +38,7 @@ export default {
 
             if (password.value !== confirmPassword.value) {
                 // handle errors here
-                console.error('Error: Passwords do not match.');
-                return;
+                alert('Error: Passwords do not match.');
             }
             
             // const baseUrl = import.meta.env.VUE_APP_BASE_URL;
