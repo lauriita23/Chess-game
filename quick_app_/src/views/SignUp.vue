@@ -59,6 +59,7 @@ export default {
 
                 const data = await response.json();
 
+                
                 if (!response.ok) {
                     // handle errors here
                     throw new Error(data.detail);

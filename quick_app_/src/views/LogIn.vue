@@ -13,9 +13,6 @@
                     <input type="password" id="password" v-model="password" required placeholder="Password"/>
                     <button type="submit">LOG IN</button>
                 </form>
-                <p>
-                    Welcome to our chess page. If you want to know what led us to create another chess site, then read on.. <a href="/">here</a>
-                </p>
             </div>
         </div>
     </div>
@@ -43,7 +40,7 @@ export default {
 
           
             try{
-                const response = await fetch(baseUrl + '/token/login', {
+                const response = await fetch(baseUrl + '/token/login/', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
