@@ -2,7 +2,7 @@
     <div>
         <div class="img">
             <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
-            <div class ="form">
+            <div class="form">
                 <h1 class="title">myChess Sign Up page</h1>
                 <form @submit.prevent="signUp" class="form">
                     <input type="email" id="email" v-model="email" required placeholder="Email address"/>
@@ -38,12 +38,13 @@ export default {
 
             if (password.value !== confirmPassword.value) {
                 // handle errors here
+                alert("Passwords do not match.");
                 console.error('Error: Passwords do not match.');
                 return;
             }
             
             // const baseUrl = import.meta.env.VUE_APP_BASE_URL;
-            const baseUrl = 'http://127.0.0.1:8000/api/v1'
+            const baseUrl = 'http://127.0.0.1:8000/api/v1';
             // const store = useTokenStore(); // no se si hace falta ?? 
 
             try {
@@ -53,7 +54,7 @@ export default {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({email: formData.email.value, username: formData.email.value, password: formData.password.value}),
+                    body: JSON.stringify({email: formData.email, username: formData.email, password: formData.password}),
                 });
 
                 const data = await response.json();
@@ -74,8 +75,8 @@ export default {
         };
 
         return {
-            username,
             email,
+            username,
             password,
             confirmPassword,
             signUp
