@@ -38,7 +38,6 @@ export default {
             
             const baseUrl = 'http://127.0.0.1:8000/api/v1';
 
-          
             try{
                 const response = await fetch(baseUrl + '/token/login/', {
                     method: 'POST',
