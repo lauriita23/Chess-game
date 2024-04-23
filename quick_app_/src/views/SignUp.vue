@@ -23,6 +23,7 @@ export default {
     name: 'SignUp',
     setup() {
         const email = ref('');
+        const username = ref('');
         const password = ref('');
         const confirmPassword = ref('');
         const router = useRouter();
@@ -30,6 +31,7 @@ export default {
         const signUp = async () => {
             const formData = {
                 email: email.value,
+                username: email.value,
                 password: password.value,
                 confirmPassword: confirmPassword.value
             };
@@ -40,17 +42,18 @@ export default {
                 return;
             }
             
-            const baseUrl = import.meta.env.VUE_APP_BASE_URL;
+            // const baseUrl = import.meta.env.VUE_APP_BASE_URL;
+            const baseUrl = 'http://127.0.0.1:8000/api/v1'
             // const store = useTokenStore(); // no se si hace falta ?? 
 
             try {
-                const response = await fetch(baseUrl + '/sign-up', {
+                const response = await fetch(baseUrl + '/users/', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify({email: formData.email.value, username: formData.email.value, password: formData.password.value}),
                 });
 
                 const data = await response.json();
@@ -71,6 +74,7 @@ export default {
         };
 
         return {
+            username,
             email,
             password,
             confirmPassword,
@@ -86,19 +90,19 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Centrar verticalmente */
+    height: 100vh; 
 }
 
 .img {
     display: flex;
     justify-content: space-between;
-    width: 70%; /* Ajustar tamaño */
+    width: 70%; 
 }
 
 .left-image {
     width: 50%;
-    max-height: 80vh; /* Ajustar tamaño */
-    object-fit: cover; /* Ajustar tamaño */
+    max-height: 80vh; 
+    object-fit: cover; 
     margin-right: 20px; 
 }
 
@@ -107,23 +111,23 @@ export default {
     margin-bottom: 10px;
     width: 100%;
     border-radius: 20px;
-    padding: 10px; /* Añadir espacio interno */
-    border: 1px solid #ccc; /* Añadir borde */
+    padding: 10px; 
+    border: 1px solid #ccc; 
 }
 
 .form button {
     background-color: blue;
     color: white;
-    border: none; /* Quitar borde */
-    cursor: pointer; /* Cambiar cursor al pasar por encima */
+    border: none;
+    cursor: pointer; 
 }
 
 .form button:hover {
-    background-color: darkblue; /* Cambiar color al pasar por encima */
+    background-color: darkblue; 
 }
 
 .title {
-    font-family: Arial, Helvetica, sans-serif; /* Aplicar el tipo de letra definido en Bootstrap */
-    text-align: center; /* Alinear al centro */
+    font-family: Arial, Helvetica, sans-serif; 
+    text-align: center; 
 }
 </style>

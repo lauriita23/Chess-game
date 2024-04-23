@@ -14,7 +14,7 @@
                     <button type="submit">LOG IN</button>
                 </form>
                 <p>
-                    Welcome to our chess page. If you want to know what led us to create another chess site, then read on.. <a href="/here">here</a>
+                    Welcome to our chess page. If you want to know what led us to create another chess site, then read on.. <a href="/">here</a>
                 </p>
             </div>
         </div>
@@ -84,18 +84,18 @@ export default {
 .img {
     display: flex;
     justify-content: space-between;
-    width: 70%; /* Ajustar tamaño */
+    width: 70%;
 }
 
 .left-image {
     width: 50%;
-    max-height: 80vh; /* Ajustar tamaño */
-    object-fit: cover; /* Ajustar tamaño */
+    max-height: 80vh;
+    object-fit: cover; 
     margin-right: 20px; 
 }
 
 .form {
-    width: 50%; /* Ajustar tamaño */
+    width: 50%; 
 }
 
 .form input,
@@ -103,23 +103,23 @@ export default {
     margin-bottom: 10px;
     width: 100%;
     border-radius: 20px;
-    padding: 10px; /* Añadir espacio interno */
-    border: 1px solid #ccc; /* Añadir borde */
+    padding: 10px;
+    border: 1px solid #ccc;
 }
 
 .form button {
     background-color: blue;
     color: white;
-    border: none; /* Quitar borde */
-    cursor: pointer; /* Cambiar cursor al pasar por encima */
+    border: none;
+    cursor: pointer; 
 }
 
 .form button:hover {
-    background-color: darkblue; /* Cambiar color al pasar por encima */
+    background-color: darkblue; 
 }
 
 .title {
-    font-family: Arial, Helvetica, sans-serif; /* Aplicar el tipo de letra definido en Bootstrap */
-    text-align: center; /* Alinear al centro */
+    font-family: Arial, Helvetica, sans-serif; 
+    text-align: center;
 }
 </style>
