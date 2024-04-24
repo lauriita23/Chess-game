@@ -14,7 +14,7 @@
           <label for="gameID" data-cy="gameID">Enter gameID:</label>
           <input type="text" id="gameID" v-model="gameID" class="form-control" data-cy="gameID">
         </div>
-        <button type="submit" class="btn btn-primary" data-cy="createGame-button">Create/Join Game</button>
+        <button type="submit" class="btn btn-primary" data-cy="createGame-button"@click="createGame">Create/Join Game</button>
         <p v-if="errorMessage" data-cy="error-message">{{ errorMessage }}</p>
       </form>
     </div>
@@ -36,6 +36,7 @@ export default {
     const errorMessage = ref('');
 
     const createGame = async () => {
+     
       const formData = {
         selectedGameType: selectedGameType.value,
         gameID: gameID.value
@@ -54,16 +55,17 @@ export default {
             body: JSON.stringify({}),
           });
 
+         
           const data = await response.json();
+          
 
           if (!response.ok) {
             errorMessage.value = 'Error: Cannot create game';
             throw new Error(data.detail);
           }
           
-          gameID.value = data.id; 
+          gameID.value = data['id']; 
           
-          console.log('LLEGAAAAAAA\n');
           router.push('/play');
         } catch (error) {
           errorMessage.value = 'Error: Cannot create game';
