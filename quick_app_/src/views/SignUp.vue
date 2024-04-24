@@ -5,10 +5,10 @@
             <div class="form">
                 <h1 class="title">myChess Sign Up page</h1>
                 <form @submit.prevent="signUp" class="form">
-                    <input type="email" id="email" v-model="email" required placeholder="Email address"/>
-                    <input type="password" id="password" v-model="password" required placeholder="Password"/>
-                    <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="Confirm Password"/>
-                    <button type="submit">SIGN UP</button>
+                    <input type="email" id="email" v-model="email" required placeholder="Email address" data-cy="username"/>
+                    <input type="password" id="password" v-model="password" required placeholder="Password" data-cy="password1"/>
+                    <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="Confirm Password" data-cy="password2"/>
+                    <button type="submit" data-cy="signup-button">SIGN UP</button>
                 </form>
             </div>
         </div>
@@ -71,7 +71,7 @@ export default {
             }
 
             // If the operation has been completed successfully, redirect to the login page
-            alert('User created successfully!')
+            //alert('User created successfully!')
             router.push('/log-in');
         };
 

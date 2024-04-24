@@ -7,11 +7,11 @@
                 <p>
                     Do not have an account?  <a href="/sign-up">Sign Up</a>
                 </p>
-               
                 <form @submit.prevent="logIn" class="form">
-                    <input type="email" id="email" v-model="email" required placeholder="Email address"/>
-                    <input type="password" id="password" v-model="password" required placeholder="Password"/>
-                    <button type="submit">LOG IN</button>
+                    <input type="email" id="email" v-model="email" required placeholder="Email address" data-cy="username"/>
+                    <input type="password" id="password" v-model="password" required placeholder="Password" data-cy="password"/>
+                    <p v-if="errorMessage" data-cy="error-message">{{ errorMessage }}</p>
+                    <button type="submit" data-cy="login-button">LOG IN</button>
                 </form>
             </div>
         </div>
@@ -70,7 +70,8 @@ export default {
         return {
             email,
             password,
-            logIn
+            logIn,
+            errorMessage: 'Error: Invalid username or password'
         };
     }
 };

@@ -8,7 +8,7 @@
       <ul class="nav-links">
         <li><RouterLink to="/log-in">Home</RouterLink></li>
         <li><RouterLink to="/sign-up">SignUp</RouterLink></li>
-        <li><RouterLink to="/log-out">LogOut</RouterLink></li>
+        <li><RouterLink to="/log-out" data-cy="logOutLink">LogOut</RouterLink></li>
       </ul>
     </div>
   </header>

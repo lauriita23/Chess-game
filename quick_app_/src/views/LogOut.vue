@@ -2,7 +2,7 @@
     <div class="container">
       <div class="card">
         <div class="form">
-          <h1 class="title">Log Out</h1>
+          <h1 class="title" data-cy="logoutPage">Log Out</h1>
           <p class="paragraph">
             You will be redirected to home in 5 seconds
           </p>
@@ -12,7 +12,7 @@
   </template>
   
   <script>
-  import { useRouter } from 'vue-router';
+  import { useRouter } from 'vue-router'; 
   import { useTokenStore } from '@/stores/token';
   import { onMounted } from 'vue';
   
