@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import LogIn from '../views/LogIn.vue'
-import MyView from '../views/MyView.vue'
+import Play from '../views/Play.vue'
 import SignUp from '../views/SignUp.vue'
 import LogOut from '../views/LogOut.vue'
 import CreateGame from '../views/CreateGame.vue'
@@ -20,9 +20,9 @@ const router = createRouter({
             redirect: '/log-in'
         },
         {
-            path: '/my-view',
-            name: 'MyView',
-            component: MyView
+            path: '/play',
+            name: 'Play',
+            component: Play
         },
         {
             path: '/sign-up',

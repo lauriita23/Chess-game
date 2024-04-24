@@ -14,8 +14,8 @@
           <label for="gameID" data-cy="gameID">Enter gameID:</label>
           <input type="text" id="gameID" v-model="gameID" class="form-control" data-cy="gameID">
         </div>
-        <p v-if="errorMessage" data-cy="error-message">{{ errorMessage }}</p>
         <button type="submit" class="btn btn-primary" data-cy="createGame-button">Create/Join Game</button>
+        <p v-if="errorMessage" data-cy="error-message">{{ errorMessage }}</p>
       </form>
     </div>
   </div>
@@ -24,6 +24,7 @@
 <script>
 import { ref } from 'vue';
 import { useTokenStore } from '@/stores/token';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'CreateGame',
@@ -31,6 +32,8 @@ export default {
     const store = useTokenStore();
     const gameID = ref('');
     const selectedGameType = ref('');
+    const router = useRouter();
+    const errorMessage = ref('');
 
     const createGame = async () => {
       const formData = {
@@ -54,13 +57,16 @@ export default {
           const data = await response.json();
 
           if (!response.ok) {
+            errorMessage.value = 'Error: Cannot create game';
             throw new Error(data.detail);
           }
           
-          gameID.value = data.id; // Set the value of ref using .value
-
+          gameID.value = data.id; 
+          
+          console.log('LLEGAAAAAAA\n');
           router.push('/play');
         } catch (error) {
+          errorMessage.value = 'Error: Cannot create game';
           console.error('Error:', error);
         }
 
@@ -70,10 +76,10 @@ export default {
     };
 
     return {
-      createGame,
-      errorMessage: 'Error: Cannot create game',
+      errorMessage,
       gameID,
-      selectedGameType 
+      selectedGameType,
+      createGame,
     };
   }
 };

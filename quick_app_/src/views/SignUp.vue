@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="img">
-            <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
+            <img src="../assets/lali.jpeg" alt="myChess image 1" class="left-image" />
             <div class="form">
                 <h1 class="title">myChess Sign Up page</h1>
                 <form @submit.prevent="signUp" class="form">

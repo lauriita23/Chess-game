@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="img">
-            <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
+            <img src="../assets/lali.jpeg" alt="myChess image 1" class="left-image" />
             <div class="form">
                 <h1 class="title">Log In</h1>
                 <p>
@@ -29,6 +29,7 @@ export default {
         const email = ref('');
         const password = ref('');
         const router = useRouter();
+        const errorMessage = ref('');
 
         const logIn = async () => {
             const formData = {
@@ -49,7 +50,10 @@ export default {
                 });
                 const data = await response.json();
 
+                console.log("DATA ESSSSS", data);
+
                 if (!response.ok) {
+                    errorMessage.value = 'Error: Invalid username or password';
                     throw new Error(data.detail);
                 }
 
@@ -59,6 +63,7 @@ export default {
                     store.setToken(data.auth_token);
                     router.push('/creategame');
                 } else {
+                    errorMessage.value =  'Error: Invalid username or password';
                     console.log('Error: Authentication token not found.');
                 }
                 
@@ -71,7 +76,7 @@ export default {
             email,
             password,
             logIn,
-            errorMessage: 'Error: Invalid username or password'
+            errorMessage
         };
     }
 };
