@@ -1,0 +1,3 @@
+python3 manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); jugadores=User.objects.all().delete(); print(jugadores)"
+python3 manage.py shell -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mychess.settings'); import django; django.setup(); from models.models import ChessGame; juegos_de_ajedrez = ChessGame.objects.all().delete(); print(juegos_de_ajedrez)"
+python3 manage.py shell < consumer_player_long_game.py   

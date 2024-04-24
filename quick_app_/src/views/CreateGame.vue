@@ -30,10 +30,10 @@ export default {
   name: 'CreateGame',
   setup() {
     const store = useTokenStore();
-    const gameID = ref('');
     const selectedGameType = ref('');
     const router = useRouter();
     const errorMessage = ref('');
+    const gameID = ref('');
 
     const createGame = async () => {
      
@@ -65,8 +65,10 @@ export default {
           }
           
           gameID.value = data['id']; 
+          store.gameID = data['id'];
+          store.userID = data['whitePlayer']
           
-          router.push('/play');
+          router.push("/play");
         } catch (error) {
           errorMessage.value = 'Error: Cannot create game';
           console.error('Error:', error);

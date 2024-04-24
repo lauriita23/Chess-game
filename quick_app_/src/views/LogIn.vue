@@ -5,7 +5,7 @@
             <div class="form">
                 <h1 class="title">Log In</h1>
                 <p>
-                    Do not have an account?  <a href="/sign-up">Sign Up</a>
+                    Do not have an account? <a href="/sign-up" @click.prevent>Sign Up</a>
                 </p>
                 <form @submit.prevent="logIn" class="form">
                     <input type="email" id="email" v-model="email" required placeholder="Email address" data-cy="username"/>
@@ -49,9 +49,7 @@ export default {
                     body: JSON.stringify(formData),
                 });
                 const data = await response.json();
-
-                console.log("DATA ESSSSS", data);
-
+                
                 if (!response.ok) {
                     errorMessage.value = 'Error: Invalid username or password';
                     throw new Error(data.detail);

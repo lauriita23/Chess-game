@@ -6,6 +6,8 @@ export const useTokenStore = defineStore("tokens",
     state: () => ({
         token: null,
         isAuthenticated: false,
+        gameID: null,
+        userID: null,
     }),
     actions: {
         setToken(token) {
