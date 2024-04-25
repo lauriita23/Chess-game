@@ -54,8 +54,10 @@
     const router = useRouter();
     const store = useTokenStore();
     const gameID = store.gameID;
+    
     const playerColor = 'white';
-    const url = 'http://127.0.0.1:8000/ws/play/'+gameID+'/';
+    // const url = baseUrl + 'play/'' + store.gameID.toString() + '/?' + store.token;
+    const url = 'http://127.0.0.1/ws/play/'+gameID+ + '/?' + store.token;
     const socket = new WebSocket(url);
     let boardAPI = ref({
         move: () => {},
@@ -73,7 +75,7 @@
             move: (from, to, capture, sam) => {
                 materialDiff.value = boardAPI.value?.getMaterialCount().n;
             },
-    },
+        },
         trustAllEvents: true, 
     });
 
@@ -98,6 +100,7 @@
         type: 'move',
         move: move,
       });
+      console.log("socket envia move", message);
       socket.send(message);
     }
 
@@ -105,7 +108,7 @@
       alert(`${isMated} is mated`);
     }
 
-    function handlePromotion(promotion) {
+    async function handlePromotion(promotion) {
       console.log(promotion);
       const message = JSON.stringify({
         type: 'promotion',
@@ -155,7 +158,7 @@
 </script>
 
 <style scoped>
-.chessboard-container {
+:host {
   background-color: black;
 }
 

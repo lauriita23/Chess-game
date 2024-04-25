@@ -5,7 +5,7 @@
             <div class="form">
                 <h1 class="title">Log In</h1>
                 <p>
-                    Do not have an account? <a href="/sign-up" @click.prevent>Sign Up</a>
+                    Do not have an account? <a href="/sign-up">Sign Up</a>
                 </p>
                 <form @submit.prevent="logIn" class="form">
                     <input type="email" id="email" v-model="email" required placeholder="Email address" data-cy="username"/>
