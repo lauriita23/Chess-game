@@ -27,8 +27,8 @@
 // "export PYTHON3=/home/roberto/Docencia/PSI/psi/2023_24/psi2023_24/venv/bin/python\n" +
 // 
 // fill free to modify the path to python3 and manage.py"
-const PYTHON = "/home/laura/p4_env/bin/python3.11"
-const MANAGE = "/home/laura//PSI_P4/PSI_P4/mychess/manage.py"
+const PYTHON = "/home/ana/miniconda3/envs/p4_env/bin/python3.12"
+const MANAGE = "/home/ana/Documentos/PSI/PSI_P4/mychess/manage.py"
 Cypress.Commands.add('delete_game', () => {
     var command = " # fill free to modify the path to python3 and manage.py" +
                 "\n" +
