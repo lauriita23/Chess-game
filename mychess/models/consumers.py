@@ -157,13 +157,14 @@ class ChessConsumer(AsyncWebsocketConsumer):
 
             game_valid = await database_sync_to_async(
                 self.validGame)(self.game_id)
+
             if playerID != self.user_id:
                 await self.channel_layer.group_send(
                     self.room_group_name,
                     {
                             'type': 'move_cb',
                             'type_': 'error',
-                            'message': f"Invalid game with id {self.game_id}",
+                            'message': f"Invalid game with id {self.game_id} {playerID} {self.user_id}",
                     })
                 return
             if game_valid is False:
