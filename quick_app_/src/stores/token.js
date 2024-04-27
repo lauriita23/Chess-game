@@ -8,6 +8,7 @@ export const useTokenStore = defineStore("tokens",
         isAuthenticated: false,
         gameID: null,
         userID: null,
+        color: null, 
         board_state: null,
     }),
     actions: {

@@ -54,23 +54,22 @@ export default {
             },
             body: JSON.stringify({}),
           });
-
          
           const data = await response.json();
-          
+
 
           if (!response.ok) {
             errorMessage.value = 'Error: Cannot create game';
-            throw new Error(data.detail);
+            throw new Error(data);
           }
           
           gameID.value = data['id']; 
           store.gameID = data['id'];
 
-          if (data['whitePlayer'] > data['blackPlayer']){
-            store.userID = data['whitePlayer'];
+          if (data['white_player'] === store.userID) {
+            store.color = 'white';
           } else {
-            store.userID = data['blackPlayer'];
+            store.color = 'black';
           }
           
           store.board_state = data['board_state'];

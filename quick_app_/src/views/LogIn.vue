@@ -40,7 +40,7 @@ export default {
             const baseUrl = 'http://127.0.0.1:8000/api/v1';
 
             try{
-                const response = await fetch(baseUrl + '/token/login/', {
+                const response = await fetch(baseUrl + '/mytokenlogin/', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -49,16 +49,17 @@ export default {
                     body: JSON.stringify(formData),
                 });
                 const data = await response.json();
-                
+
                 if (!response.ok) {
                     errorMessage.value = 'Error: Invalid username or password';
-                    throw new Error(data.detail);
+                    throw new Error(data);
                 }
 
                 const store = useTokenStore();
 
                 if (data && data.auth_token) {
                     store.setToken(data.auth_token);
+                    store.userID = data.user_id;
                     router.push('/creategame');
                 } else {
                     errorMessage.value =  'Error: Invalid username or password';

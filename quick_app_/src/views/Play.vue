@@ -116,11 +116,17 @@
                     console.log("boardAPI.value.move(uci_move)", uci_move);
                     boardAPI.value.move(uci_move); 
 
-                   
-                    moves.value.push({
-                      white: '',
-                      black: data.from + data.to,
-                    });
+                    if (store.color == 'white')
+                      moves.value.push({
+                        white: data.from + data.to,
+                        black: '',
+                      });
+                    else 
+                      moves.value.push({
+                        white: '',
+                        black: data.from + data.to,
+                      });
+                    
                   }
                   
                 } 
