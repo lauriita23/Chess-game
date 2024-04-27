@@ -41,7 +41,7 @@
         boardAPI.value.move(from, to);
     }
 
-    function handleMove(move) {
+    async function handleMove(move) {
       
       console.log("llama a move", move.from, move.to);
     
@@ -60,28 +60,27 @@
         black: move.color === 'b' ? move.from + move.to : ''
       });
       
-      const message = JSON.stringify({
+      await socket.send(JSON.stringify({
         'type': 'move',
         'from': move['from'],
         'to': move['to'],
         'playerID': store.userID,
         'promotion': promotion,
-      });
-      socket.send(message);
+      }));
     }
 
     function handleCheckmate(isMated) {
       alert(`${isMated} is mated`);
     }
 
-    function handlePromotion(promotion) {
+    async function handlePromotion(promotion) {
       console.log(promotion);
       const message = JSON.stringify({
         type: 'promotion',
         promotion: promotion,
       });
     
-      socket.send(message);
+      await socket.send(message);
     }
 
     function handleStalemate() {
@@ -113,8 +112,7 @@
                 if (store.userID !== data.playerID) {
 
                   if (boardAPI.value) {
-                    console.log("boardAPI.value.move(uci_move)", uci_move);
-                    boardAPI.value.move(uci_move); 
+                    boardAPI.value.move(uci_move);
 
                     if (store.color == 'white')
                       moves.value.push({
@@ -126,9 +124,7 @@
                         white: '',
                         black: data.from + data.to,
                       });
-                    
                   }
-                  
                 } 
                 
             } else if (data.type === 'error' ){
@@ -139,7 +135,6 @@
 
     onMounted(() => {
       connectWebSocket();
-      // console.log(boardAPI?.getBoardPosition());
     });
 
 </script>
@@ -154,8 +149,7 @@
       @move="handleMove"
       @stalemate="handleStalemate"
       @draw="handleDraw"
-      @promotion="handlePromotion" 
-      @move2="onRecieveMove"
+      @promotion="handlePromotion"
       >
   </TheChessboard>
   <table class="tabla" data-cy="moveTable">
