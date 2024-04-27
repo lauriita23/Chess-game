@@ -66,7 +66,14 @@ export default {
           
           gameID.value = data['id']; 
           store.gameID = data['id'];
-          store.userID = data['whitePlayer']
+
+          if (data['whitePlayer'] > data['blackPlayer']){
+            store.userID = data['whitePlayer'];
+          } else {
+            store.userID = data['blackPlayer'];
+          }
+          
+          store.board_state = data['board_state'];
           
           router.push("/play");
         } catch (error) {

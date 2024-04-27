@@ -52,6 +52,7 @@ class ChessConsumer(AsyncWebsocketConsumer):
         game = ChessGame.objects.get(id=game_id)
         player = Player.objects.get(id=player_id)
         try:
+            print("Saving move", game_id, player_id, _from, to, promotion)
             chess_move = ChessMove(game=game, player=player, move_from=_from,
                                    move_to=to, promotion=promotion)
             chess_move.save()
@@ -173,8 +174,7 @@ class ChessConsumer(AsyncWebsocketConsumer):
                     {
                             'type': 'move_cb',
                             'type_': 'error',
-                            'message':
-                            "Error: invalid move (game is not active)",
+                            'message': "Error: invalid move (game is not active)",
                     })
                 return
             save = await database_sync_to_async(self.salvarMovimiento)(

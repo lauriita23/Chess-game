@@ -63,7 +63,6 @@ async def _main(user, token, game, moves, consumerFirst=True):
     # with status=active
     print("#### wait for second player")
     message = await websocket.recv()
-    print("message", message)
     messageD = json.loads(message)
     if (messageD['type'] != "game") or\
        (messageD["message"] != "OK") or\

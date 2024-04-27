@@ -1,6 +1,5 @@
 <script setup>
-    import { ref, reactive, defineEmits } from 'vue';
-    import { onMounted, watch } from 'vue';
+    import { ref, reactive, defineEmits, watch, onMounted } from 'vue';
     import { TheChessboard } from 'vue3-chessboard';
     import 'vue3-chessboard/style.css';
     import { useRouter } from 'vue-router';
@@ -8,18 +7,17 @@
 
     const moves = ref([]);
     // Client will only be able to play white pieces.
-    const router = useRouter();
+    // const router = useRouter();
     const store = useTokenStore();
-    const gameID = store.gameID;
-    
+    const gameID = store.gameID;  
     const playerColor = 'white';
+    const url = 'ws://127.0.0.1:8000/ws/play/'+ store.gameID + '/?' + store.token;
     
-    const url = 'ws://127.0.0.1:8000/ws/play/'+gameID + '/?' + store.token;
-    console.log("url ", url);   
     const socket = new WebSocket(url);
     let boardAPI = ref({
-      move: () => {},
-      getMaterialCount: () => {},
+      move: (move) => {
+          //materialDiff.value = boardAPI.value?.getMaterialCount().materialDiff;    
+      },
     });
   
 
@@ -28,57 +26,62 @@
       viewOnly: false,
       animation: { enabled: true },
       draggable: { enabled: true },
-      coordinates: true,
+      fen: store.board_state,
       events: {
-        move: (from, to, promotion) => {
-          console.log("Move event received:", from, to, promotion);
-          handleMove(from, to, promotion); // Llamar a handleMove aquí
-          materialDiff.value = boardAPI.value?.getMaterialCount().materialDiff;    
-    },
+        move: (move) => {
+          console.log("Move event received:", move.from, move.to);
+      },
       },
       trustAllEvents: true, 
     });
 
-
-    function onRecieveMove(move) {
+    function onRecieveMove(from, to) {
       console.log("onRecieveMove", move);
-      // boardAPI?.move(move);
+      if (boardAPI.value)
+        boardAPI.value.move(from, to);
     }
 
-
-    async function handleMove(from, to, promotion) {
-      console.log("llama a move", from, to, promotion);
-      if (boardAPI.value) { 
-        boardAPI.value.move(from, to, promotion); 
+    function handleMove(move) {
+      
+      console.log("llama a move", move.from, move.to);
+    
+      let promotion = "";
+      if (move.san) {
+        promotion = move.san.charAt(move.lan.length - 1);
+        if (promotion === 'q' || promotion === 'r' || promotion === 'b' || promotion === 'n') {
+          handlePromotion(promotion);
+        } else {
+          promotion = "";
+        }
       }
-
+        
       moves.value.push({
-        white: from, 
-        black: to,
+        white: move.color === 'w' ? move.from + move.to : '',
+        black: move.color === 'b' ? move.from + move.to : ''
       });
-
+      
       const message = JSON.stringify({
         'type': 'move',
-        'from': from,
-        'to': to,
+        'from': move['from'],
+        'to': move['to'],
         'playerID': store.userID,
-        'promotion': promotion, 
+        'promotion': promotion,
       });
-      await socket.send(message);
+      socket.send(message);
     }
 
     function handleCheckmate(isMated) {
       alert(`${isMated} is mated`);
     }
 
-    async function handlePromotion(promotion) {
+    function handlePromotion(promotion) {
       console.log(promotion);
       const message = JSON.stringify({
         type: 'promotion',
         promotion: promotion,
       });
     
-      await socket.send(message);
+      socket.send(message);
     }
 
     function handleStalemate() {
@@ -106,22 +109,24 @@
             } 
             else if (data.type === 'move')
             {
-                if (store.userID === data.playerID) {
-                  console.log('move data', data.from, data.to, data.promotion);
+                console.log('Move:', uci_move);
+                if (store.userID !== data.playerID) {
 
                   if (boardAPI.value) {
-                    console.log('boardAPI.value', boardAPI.value);
-                      boardAPI.value.move(data.from, data.to, data.promotion); 
-                  }
+                    console.log("boardAPI.value.move(uci_move)", uci_move);
+                    boardAPI.value.move(uci_move); 
 
-                  onRecieveMove(uci_move);
-                  handleMove(data.from, data.to, data.promotion);
-                } else {
-                  console.log('Error:', data.message);
-                }
+                   
+                    moves.value.push({
+                      white: '',
+                      black: data.from + data.to,
+                    });
+                  }
+                  
+                } 
                 
             } else if (data.type === 'error' ){
-                console.log('Error:', data.message);
+                console.log('Error else:', data.message);
             }
         };  
     }
@@ -144,12 +149,13 @@
       @stalemate="handleStalemate"
       @draw="handleDraw"
       @promotion="handlePromotion" 
+      @move2="onRecieveMove"
       >
   </TheChessboard>
   <table class="tabla" data-cy="moveTable">
       <tr v-for="(move, index) in moves" :key="index">
-          <td>{{ move.white }}</td>
-          <td>{{ move.black }}</td>
+        <td>{{ move.white}}</td>
+        <td>{{ move.black }}</td>
       </tr>
   </table>
   <div>
