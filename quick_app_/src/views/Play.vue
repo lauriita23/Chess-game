@@ -1,143 +1,97 @@
 <script setup>
-    import { ref, reactive, defineEmits, watch, onMounted } from 'vue';
-    import { TheChessboard } from 'vue3-chessboard';
-    import 'vue3-chessboard/style.css';
-    import { useRouter } from 'vue-router';
-    import { useTokenStore } from '@/stores/token';
+  import { ref, reactive, defineEmits, onMounted } from 'vue';
+  import { TheChessboard } from 'vue3-chessboard';
+  import 'vue3-chessboard/style.css';
+  import { useTokenStore } from '@/stores/token';
 
-    const moves = ref([]);
-    // Client will only be able to play white pieces.
-    // const router = useRouter();
-    const store = useTokenStore();
-    const gameID = store.gameID;  
-    const playerColor = 'white';
-    const url = 'ws://127.0.0.1:8000/ws/play/'+ store.gameID + '/?' + store.token;
-    
-    const socket = new WebSocket(url);
-    let boardAPI = ref({
-      move: (move) => {
-          //materialDiff.value = boardAPI.value?.getMaterialCount().materialDiff;    
+  // Estado del juego
+  const moves = ref([]);
+  const store = useTokenStore();
+  const gameID = store.gameID;
+  const playerColor = 'white';
+  const url = 'ws://127.0.0.1:8000/ws/play/' + store.gameID + '/?' + store.token;
+  const socket = new WebSocket(url);
+  const boardAPI = ref({
+    move: () => {},
+  });
+
+  // Configuración del tablero
+  const boardConfig = reactive({
+    coordinates: true,
+    viewOnly: false,
+    animation: { enabled: true },
+    draggable: { enabled: true },
+    fen: store.board_state,
+    events: {
+      move: (from, to) => {
+        console.log("Move event received:", from, to);
       },
+    },
+    trustAllEvents: true,
+  });
+
+  // Función para manejar el movimiento del jugador
+  function handleMove(move) {
+    console.log("Move:", move);
+
+    // Procesar el movimiento y agregarlo a la lista de movimientos
+    moves.value.push({
+      white: move.color === 'w' ? move.from + move.to : '',
+      black: move.color === 'b' ? move.from + move.to : ''
     });
-  
 
-    const boardConfig = reactive({
-      coordinates: true,
-      viewOnly: false,
-      animation: { enabled: true },
-      draggable: { enabled: true },
-      fen: store.board_state,
-      events: {
-        move: (move) => {
-          console.log("Move event received:", move.from, move.to);
-      },
-      },
-      trustAllEvents: true, 
-    });
 
-    function onRecieveMove(from, to) {
-      console.log("onRecieveMove", move);
-      if (boardAPI.value)
-        boardAPI.value.move(from, to);
-    }
 
-    async function handleMove(move) {
-      
-      console.log("llama a move", move.from, move.to);
-    
-      let promotion = "";
-      if (move.san) {
-        promotion = move.san.charAt(move.lan.length - 1);
-        if (promotion === 'q' || promotion === 'r' || promotion === 'b' || promotion === 'n') {
-          handlePromotion(promotion);
-        } else {
-          promotion = "";
-        }
-      }
-        
-      moves.value.push({
-        white: move.color === 'w' ? move.from + move.to : '',
-        black: move.color === 'b' ? move.from + move.to : ''
-      });
-      
-      await socket.send(JSON.stringify({
+    // Enviar el movimiento al servidor si el socket está abierto
+    if (socket.readyState === WebSocket.OPEN) {
+      const promotion = move.promotion ? move.promotion : "";
+      socket.send(JSON.stringify({
         'type': 'move',
-        'from': move['from'],
-        'to': move['to'],
+        'from': move.from,
+        'to': move.to,
         'playerID': store.userID,
         'promotion': promotion,
       }));
+    } else {
+      console.error('WebSocket is not open:', socket.readyState);
     }
+  }
 
-    function handleCheckmate(isMated) {
-      alert(`${isMated} is mated`);
-    }
+  // Función para conectar el WebSocket
+  function connectWebSocket() {
+    socket.onopen = () => {
+      console.log('WebSocket Client Connected');
+    };
 
-    async function handlePromotion(promotion) {
-      console.log(promotion);
-      const message = JSON.stringify({
-        type: 'promotion',
-        promotion: promotion,
-      });
-    
-      await socket.send(message);
-    }
+    socket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      console.log('Received:', data);
 
-    function handleStalemate() {
-      alert('Stalemate');
-    }
+      if (data.type === 'game') {
+        console.log("Game message received:", data);
+      } else if (data.type === 'move') {
+        console.log("Move message received:", data);
+        const uci_move = data.from + data.to + (data.promotion ? data.promotion : "");
+        if (store.userID !== data.playerID && boardAPI.value) {
+          boardAPI.value.move(uci_move);
+          moves.value.push({
+            white: data.from + data.to,
+            black: '',
+          });
+        }
+      } else if (data.type === 'error') {
+        console.log('Error message received:', data.message);
+      }
+    };
+  }
 
-    function handleDraw() {
-      alert('Draw');
-    }
-
-    function connectWebSocket() {
-        socket.onopen = () => {
-            console.log('WebSocket Client Connected');
-        };
-
-        socket.onmessage = (e) => {
-            const data = JSON.parse(e.data);
-            console.log('Received:', data);
-            const uci_move = data.from + ' ' + data.to + ' ' + data.promotion;
-            
-            if (data.type === 'game')
-            {
-              console.log("message received");
-              console.log(data);
-            } 
-            else if (data.type === 'move')
-            {
-                console.log('Move:', uci_move);
-                if (store.userID !== data.playerID) {
-
-                  if (boardAPI.value) {
-                    boardAPI.value.move(uci_move);
-
-                    if (store.color == 'white')
-                      moves.value.push({
-                        white: data.from + data.to,
-                        black: '',
-                      });
-                    else 
-                      moves.value.push({
-                        white: '',
-                        black: data.from + data.to,
-                      });
-                  }
-                } 
-                
-            } else if (data.type === 'error' ){
-                console.log('Error else:', data.message);
-            }
-        };  
-    }
-
-    onMounted(() => {
-      connectWebSocket();
-    });
-
+  // Conectar el WebSocket cuando el componente está montado
+  onMounted(() => {
+    connectWebSocket();
+  });
 </script>
+
+
 
 
 <template>
