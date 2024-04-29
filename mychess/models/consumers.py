@@ -57,6 +57,7 @@ class ChessConsumer(AsyncWebsocketConsumer):
                                    move_to=to, promotion=promotion)
             chess_move.save()
         except Exception as e:
+            print("se sale en la expecion\n")
             print("Exception: ", e)
             return False
 

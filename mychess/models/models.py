@@ -78,6 +78,7 @@ class ChessMove (models.Model):
             move = chess.Move.from_uci(self.move_from + self.move_to)
 
         if move not in list(board.legal_moves):
+            print("el movimiento no esta en la lista \n")
             raise ValueError('Invalid move.')
 
         board.push(move)

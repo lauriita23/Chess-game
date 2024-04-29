@@ -14,7 +14,8 @@
           <label for="gameID" data-cy="gameID">Enter gameID:</label>
           <input type="text" id="gameID" v-model="gameID" class="form-control" data-cy="gameID">
         </div>
-        <button type="submit" class="btn btn-primary" data-cy="createGame-button"@click="createGame">Create/Join Game</button>
+        <button type="submit" class="btn btn-primary" data-cy="createGame-button" @click="createGame">Create/Join
+          Game</button>
         <p v-if="errorMessage" data-cy="error-message">{{ errorMessage }}</p>
       </form>
     </div>
@@ -36,7 +37,7 @@ export default {
     const gameID = ref('');
 
     const createGame = async () => {
-     
+
       const formData = {
         selectedGameType: selectedGameType.value,
         gameID: gameID.value
@@ -54,7 +55,7 @@ export default {
             },
             body: JSON.stringify({}),
           });
-         
+
           const data = await response.json();
 
 
@@ -62,18 +63,21 @@ export default {
             errorMessage.value = 'Error: Cannot create game';
             throw new Error(data);
           }
-          
-          gameID.value = data['id']; 
+
+          console.log("DATAAAAAA", data)
+
+          gameID.value = data['id'];
           store.gameID = data['id'];
 
-          if (data['white_player'] === store.userID) {
+          if (data['whitePlayer'] === store.userID) {
             store.color = 'white';
-          } else {
+          } if (data['blackPlayer'] === store.userID) {
             store.color = 'black';
           }
-          
+          console.log("store.color", store.color);
+
           store.board_state = data['board_state'];
-          
+
           router.push("/play");
         } catch (error) {
           errorMessage.value = 'Error: Cannot create game';

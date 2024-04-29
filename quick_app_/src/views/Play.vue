@@ -8,12 +8,14 @@
   const moves = ref([]);
   const store = useTokenStore();
   const gameID = store.gameID;
-  const playerColor = 'white';
+  const playerColor = store.color;
   const url = 'ws://127.0.0.1:8000/ws/play/' + store.gameID + '/?' + store.token;
   const socket = new WebSocket(url);
-  const boardAPI = ref({
-    move: () => {},
-  });
+  let boardAPI;
+  const checkmated = ref(false);
+  const mated = ref('');
+
+  console.log("el tablero es  ", store.board_state);
 
   // Configuración del tablero
   const boardConfig = reactive({
@@ -22,6 +24,7 @@
     animation: { enabled: true },
     draggable: { enabled: true },
     fen: store.board_state,
+    orientation: playerColor,
     events: {
       move: (from, to) => {
         console.log("Move event received:", from, to);
@@ -30,31 +33,57 @@
     trustAllEvents: true,
   });
 
+  function handleCheckmate(isMated) 
+  {
+    checkmated.value = true;
+    mated.value = isMated;
+    alert(`${isMated} is mated`);
+  }
+
+  function handleStalemate ()
+  {
+    alert('Stalemate');
+  }
+  
+  
+  function handleDraw()
+  {
+    alert('Draw');
+  }
+
+  function handlePromotion () {
+    alert('Promotion');
+  }
+
   // Función para manejar el movimiento del jugador
   function handleMove(move) {
-    console.log("Move:", move);
+
+    console.log("Llega el movimiento a handle move:", move);
 
     // Procesar el movimiento y agregarlo a la lista de movimientos
-    moves.value.push({
-      white: move.color === 'w' ? move.from + move.to : '',
-      black: move.color === 'b' ? move.from + move.to : ''
-    });
+    if(move.color === store.color.charAt(0))
+    {
+      moves.value.push({
+        white: move.color === 'w' ? move.from + move.to : '',
+        black: move.color === 'b' ? move.from + move.to : ''
+      });
 
 
-
-    // Enviar el movimiento al servidor si el socket está abierto
-    if (socket.readyState === WebSocket.OPEN) {
-      const promotion = move.promotion ? move.promotion : "";
-      socket.send(JSON.stringify({
-        'type': 'move',
-        'from': move.from,
-        'to': move.to,
-        'playerID': store.userID,
-        'promotion': promotion,
-      }));
-    } else {
-      console.error('WebSocket is not open:', socket.readyState);
+      // Enviar el movimiento al servidor si el socket está abierto
+      if (socket.readyState === WebSocket.OPEN) {
+        const promotion = move.promotion ? move.promotion : "";
+        socket.send(JSON.stringify({
+          'type': 'move',
+          'from': move.from,
+          'to': move.to,
+          'playerID': store.userID,
+          'promotion': promotion,
+        }));
+      } else {
+        console.error('WebSocket is not open:', socket.readyState);
+      }
     }
+
   }
 
   // Función para conectar el WebSocket
@@ -72,11 +101,11 @@
       } else if (data.type === 'move') {
         console.log("Move message received:", data);
         const uci_move = data.from + data.to + (data.promotion ? data.promotion : "");
-        if (store.userID !== data.playerID && boardAPI.value) {
-          boardAPI.value.move(uci_move);
+        if (store.userID !== data.playerID && boardAPI) {
+          boardAPI.move(uci_move);
           moves.value.push({
-            white: data.from + data.to,
-            black: '',
+              white: store.color === 'white' ? data.from + data.to : '',
+              black: store.color === 'black' ? data.from + data.to : '',
           });
         }
       } else if (data.type === 'error') {
@@ -93,12 +122,11 @@
 
 
 
-
 <template>
   <TheChessboard
       :board-config="boardConfig"
       :player-color="playerColor"
-      @board-created="(api) => (boardAPI.value = api)"
+      @board-created="(api) => (boardAPI = api)"
       @checkmate="handleCheckmate"
       @move="handleMove"
       @stalemate="handleStalemate"
@@ -130,6 +158,24 @@
     Toggle draggable
   </button>
   <p>Game ID: {{ gameID }}</p>
+</div>
+<div
+  v-if="checkmated && mated==='white'"
+  data-cy="winMsg"
+  class="alert alert-success"
+  role="alert"
+>
+  Black Wins
+  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
+</div>
+<div
+  v-if="checkmated && mated==='black'"
+  data-cy="winMsg"
+  class="alert alert-success"
+  role="alert"
+>
+  White Wins
+  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
 </div>
 </template>
 
