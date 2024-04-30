@@ -126,7 +126,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-CSRF_TRUSTED_ORIGINS = ['https://psi-p3-arqd.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://psi-p4-oxvq.onrender.com']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -197,7 +197,7 @@ DATABASES['default'].update(databaseenv)
 
 AUTH_USER_MODEL = 'models.Player'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'psi-p3-arqd.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'psi-p4-oxvq.onrender.com']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -209,7 +209,7 @@ DJOSER = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://psi-p3-arqd.onrender.com"
+    "https://psi-p4-oxvq.onrender.com"
 ]
 
 
