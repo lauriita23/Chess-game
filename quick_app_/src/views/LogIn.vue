@@ -4,9 +4,6 @@
             <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
             <div class="form">
                 <h1 class="title">Log In</h1>
-                <p>
-                    Do not have an account? <a href="/sign-up">Sign Up</a>
-                </p>
                 <form @submit.prevent="logIn" class="form">
                     <input type="email" id="email" v-model="email" required placeholder="Email address" data-cy="username"/>
                     <input type="password" id="password" v-model="password" required placeholder="Password" data-cy="password"/>
@@ -37,7 +34,8 @@ export default {
                 password: password.value
             };
             
-            const baseUrl = 'http://127.0.0.1:8000/api/v1';
+            //const baseUrl = 'http://127.0.0.1:8000/api/v1';
+            const baseUrl = import.meta.env.VUE_APP_BASE_URL;
 
             try{
                 const response = await fetch(baseUrl + '/mytokenlogin/', {

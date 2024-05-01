@@ -24,8 +24,9 @@
       const store = useTokenStore();
   
       const logOut = async () => {
-        //const baseUrl = import.meta.env.VUE_APP_BASE_URL;
-        const baseUrl = 'http://localhost:8000/api/v1';
+        
+        const baseUrl = import.meta.env.VUE_APP_BASE_URL;
+        //const baseUrl = 'http://localhost:8000/api/v1';
 
         if(store.token == null) {
           alert("You cannot log out if you are not logged in");
