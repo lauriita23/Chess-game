@@ -45,7 +45,7 @@ export default {
 
       if (selectedGameType.value === 'game_join_any') {
 
-        const baseUrl = import.meta.env.VUE_APP_BASE_URL;
+        const baseUrl = import.meta.env.VITE_DJANGOURL;
         //const baseUrl = 'http://127.0.0.1:8000/api/v1';
 
         try {

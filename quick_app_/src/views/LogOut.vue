@@ -25,7 +25,7 @@
   
       const logOut = async () => {
 
-        const baseUrl = import.meta.env.VUE_APP_BASE_URL;
+        const baseUrl = import.meta.env.VITE_DJANGOURL;
         //const baseUrl = 'http://localhost:8000/api/v1';
 
         if(store.token == null) {
