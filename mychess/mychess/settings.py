@@ -212,6 +212,13 @@ CORS_ALLOWED_ORIGINS = [
     "https://psi-p4-oxvq.onrender.com"
 ]
 
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_WHITELIST = [
+    "http://localhost:5173",
+    "https://127.0.0.1:5173"
+    "https://psi-p4-wbkh.onrender.com"
+]
 
 CHANNEL_LAYERS = {
     'default': {
