@@ -45,7 +45,7 @@ export default {
             
             const baseUrl = import.meta.env.VITE_DJANGOURL;
             //const baseUrl = 'http://127.0.0.1:8000/api/v1';
-            // const store = useTokenStore(); // no se si hace falta ?? 
+            console.log("la baseUrl ", baseUrl);
 
             try {
                 const response = await fetch(baseUrl + '/users/', {
@@ -58,7 +58,7 @@ export default {
                 });
 
                 const data = await response.json();
-
+                console.log("data ", data);
                 
                 if (!response.ok) {
                     // handle errors here
