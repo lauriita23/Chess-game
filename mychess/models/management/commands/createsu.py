@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import User
 from django.core.management.base import BaseCommand
 from os import getenv
 from dotenv import load_dotenv
