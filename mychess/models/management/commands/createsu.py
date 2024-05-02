@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from mychess.models import Player
+from models.models import Player
 from django.core.management.base import BaseCommand
 from os import getenv
 from dotenv import load_dotenv
