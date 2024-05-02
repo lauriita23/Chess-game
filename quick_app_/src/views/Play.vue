@@ -15,6 +15,8 @@
   let boardAPI;
   const checkmated = ref(false);
   const mated = ref('');
+  const draw = ref(false);
+  const stalemate = ref(false);
 
   console.log("el tablero es  ", store.board_state);
 
@@ -43,12 +45,14 @@
 
   function handleStalemate ()
   {
+    stalemate.value = true;
     alert('Stalemate');
   }
   
   
   function handleDraw()
   {
+    draw.value = true;
     alert('Draw');
   }
 
@@ -176,6 +180,24 @@
   role="alert"
 >
   White Wins
+  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
+</div>
+<div
+  v-if="draw"
+  data-cy="winMsg"
+  class="alert alert-success"
+  role="alert"
+>
+  Draw
+  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
+</div>
+<div
+  v-if="stalemate"
+  data-cy="winMsg"
+  class="alert alert-success"
+  role="alert"
+>
+  Stalemate
   <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
 </div>
 </template>
