@@ -46,6 +46,8 @@ export default {
             const baseUrl = import.meta.env.VITE_DJANGOURL;
             //const baseUrl = 'http://127.0.0.1:8000/api/v1';
             console.log("la baseUrl ", baseUrl);
+            console.log("el email es ", formData.email);
+            console.log("el password es ", formData.password);
 
             try {
                 const response = await fetch(baseUrl + '/users/', {
@@ -57,13 +59,16 @@ export default {
                     body: JSON.stringify({email: formData.email, username: formData.email, password: formData.password}),
                 });
 
-                const data = await response.json();
-                console.log("data ", data);
+                console.log("response ", response);
                 
                 if (!response.ok) {
                     // handle errors here
                     throw new Error(data.detail);
                 }
+
+
+                const data = await response.json();
+                console.log("data ", data);
 
             } catch (error) {
                 // handle errors here
