@@ -209,7 +209,8 @@ DJOSER = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://psi-p4-oxvq.onrender.com"
+    "https://psi-p4-oxvq.onrender.com",
+    "https://psi-p4-wbkh.onrender.com",
 ]
 
 
