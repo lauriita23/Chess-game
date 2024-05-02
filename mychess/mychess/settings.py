@@ -44,9 +44,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -207,8 +207,9 @@ DJOSER = {
     "USER_ID_FIELD": "username",
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
     "https://psi-p4-oxvq.onrender.com",
     "https://psi-p4-wbkh.onrender.com",
 ]
