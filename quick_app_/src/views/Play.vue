@@ -9,7 +9,7 @@
   const store = useTokenStore();
   const gameID = store.gameID;
   const playerColor = store.color;
-  const baseUrl = import.meta.env.VITE_DJANGOURL_WS;
+  const baseUrl = import.meta.env.VITE_DJANGOURL;
   const url = baseUrl + '/ws/play/' + store.gameID + '/?' + store.token;
   const socket = new WebSocket(url);
   let boardAPI;
