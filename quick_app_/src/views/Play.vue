@@ -9,7 +9,7 @@
   const store = useTokenStore();
   const gameID = store.gameID;
   const playerColor = store.color;
-  const url = 'ws://127.0.0.1:8000/ws/play/' + store.gameID + '/?' + store.token;
+  const url = 'wss://127.0.0.1:8000/ws/play/' + store.gameID + '/?' + store.token;
   const socket = new WebSocket(url);
   let boardAPI;
   const checkmated = ref(false);
