@@ -66,8 +66,6 @@ export default {
             throw new Error(data);
           }
 
-          console.log("DATAAAAAA", data)
-
           gameID.value = data['id'];
           store.gameID = data['id'];
 
@@ -76,7 +74,6 @@ export default {
           } if (data['blackPlayer'] === store.userID) {
             store.color = 'black';
           }
-          console.log("store.color", store.color);
 
           store.board_state = data['board_state'];
 

@@ -49,8 +49,6 @@ export default {
                 
                 const data = await response.json();
 
-                console.log("data", data)
-
                 if (!response.ok) {
                     errorMessage.value = 'Error: Invalid username or password';
                     throw new Error(data);

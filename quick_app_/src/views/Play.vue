@@ -18,7 +18,6 @@
   const draw = ref(false);
   const stalemate = ref(false);
 
-  console.log("el tablero es  ", store.board_state);
 
   // Configuración del tablero
   const boardConfig = reactive({
@@ -62,8 +61,6 @@
 
   // Función para manejar el movimiento del jugador
   function handleMove(move) {
-
-    console.log("Llega el movimiento a handle move:", move);
 
     // Procesar el movimiento y agregarlo a la lista de movimientos
     if(move.color === store.color.charAt(0))
