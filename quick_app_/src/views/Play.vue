@@ -126,77 +126,102 @@
 
 <template>
   <TheChessboard
-      :board-config="boardConfig"
-      :player-color="playerColor"
-      @board-created="(api) => (boardAPI = api)"
-      @checkmate="handleCheckmate"
-      @move="handleMove"
-      @stalemate="handleStalemate"
-      @draw="handleDraw"
-      @promotion="handlePromotion"
-      >
-  </TheChessboard>
-  <table class="tabla" data-cy="moveTable">
-      <tr v-for="(move, index) in moves" :key="index">
-        <td>{{ move.white}}</td>
-        <td>{{ move.black }}</td>
-      </tr>
+    :board-config="boardConfig"
+    :player-color="playerColor"
+    @board-created="(api) => (boardAPI = api)"
+    @checkmate="handleCheckmate"
+    @move="handleMove"
+    @stalemate="handleStalemate"
+    @draw="handleDraw"
+    @promotion="handlePromotion"
+  />
+  <table
+    class="tabla"
+    data-cy="moveTable"
+  >
+    <tr
+      v-for="(move, index) in moves"
+      :key="index"
+    >
+      <td>{{ move.white }}</td>
+      <td>{{ move.black }}</td>
+    </tr>
   </table>
   <div>
-  <button @click="boardConfig.coordinates = !boardConfig.coordinates">
-    Toggle coordinates
-  </button>
-  <button @click="boardConfig.viewOnly = !boardConfig.viewOnly">
-    Toggle view only
-  </button>
-  <button
-    @click="boardConfig.animation.enabled = !boardConfig.animation.enabled"
+    <button @click="boardConfig.coordinates = !boardConfig.coordinates">
+      Toggle coordinates
+    </button>
+    <button @click="boardConfig.viewOnly = !boardConfig.viewOnly">
+      Toggle view only
+    </button>
+    <button
+      @click="boardConfig.animation.enabled = !boardConfig.animation.enabled"
+    >
+      Toggle animations
+    </button>
+    <button
+      @click="boardConfig.draggable.enabled = !boardConfig.draggable.enabled"
+    >
+      Toggle draggable
+    </button>
+    <p>Game ID: {{ gameID }}</p>
+  </div>
+  <div
+    v-if="checkmated && mated==='white'"
+    data-cy="winMsg"
+    class="alert alert-success"
+    role="alert"
   >
-    Toggle animations
-  </button>
-  <button
-    @click="boardConfig.draggable.enabled = !boardConfig.draggable.enabled"
+    Black Wins
+    <button
+      data-cy="createGame-button-in-play"
+      @click="router.push('/creategame')"
+    >
+      PLAY NEW GAME
+    </button>
+  </div>
+  <div
+    v-if="checkmated && mated==='black'"
+    data-cy="winMsg"
+    class="alert alert-success"
+    role="alert"
   >
-    Toggle draggable
-  </button>
-  <p>Game ID: {{ gameID }}</p>
-</div>
-<div
-  v-if="checkmated && mated==='white'"
-  data-cy="winMsg"
-  class="alert alert-success"
-  role="alert"
->
-  Black Wins
-  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
-</div>
-<div
-  v-if="checkmated && mated==='black'"
-  data-cy="winMsg"
-  class="alert alert-success"
-  role="alert"
->
-  White Wins
-  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
-</div>
-<div
-  v-if="draw"
-  data-cy="winMsg"
-  class="alert alert-success"
-  role="alert"
->
-  Draw
-  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
-</div>
-<div
-  v-if="stalemate"
-  data-cy="winMsg"
-  class="alert alert-success"
-  role="alert"
->
-  Stalemate
-  <button @click="router.push('/creategame')" data-cy=createGame-button-in-play>PLAY NEW GAME</button>
-</div>
+    White Wins
+    <button
+      data-cy="createGame-button-in-play"
+      @click="router.push('/creategame')"
+    >
+      PLAY NEW GAME
+    </button>
+  </div>
+  <div
+    v-if="draw"
+    data-cy="winMsg"
+    class="alert alert-success"
+    role="alert"
+  >
+    Draw
+    <button
+      data-cy="createGame-button-in-play"
+      @click="router.push('/creategame')"
+    >
+      PLAY NEW GAME
+    </button>
+  </div>
+  <div
+    v-if="stalemate"
+    data-cy="winMsg"
+    class="alert alert-success"
+    role="alert"
+  >
+    Stalemate
+    <button
+      data-cy="createGame-button-in-play"
+      @click="router.push('/creategame')"
+    >
+      PLAY NEW GAME
+    </button>
+  </div>
 </template>
 
 

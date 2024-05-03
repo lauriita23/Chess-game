@@ -1,18 +1,53 @@
 <template>
-    <div>
-        <div class="img">
-            <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
-            <div class="form">
-                <h1 class="title">myChess Sign Up page</h1>
-                <form @submit.prevent="signUp" class="form">
-                    <input type="email" id="email" v-model="email" required placeholder="Email address" data-cy="username"/>
-                    <input type="password" id="password" v-model="password" required placeholder="Password" data-cy="password1"/>
-                    <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="Confirm Password" data-cy="password2"/>
-                    <button type="submit" data-cy="signup-button">SIGN UP</button>
-                </form>
-            </div>
-        </div>
+  <div>
+    <div class="img">
+      <img
+        src="../assets/chess1.8ddb93c1.jpg"
+        alt="myChess image 1"
+        class="left-image"
+      >
+      <div class="form">
+        <h1 class="title">
+          myChess Sign Up page
+        </h1>
+        <form
+          class="form"
+          @submit.prevent="signUp"
+        >
+          <input
+            id="email"
+            v-model="email"
+            type="email"
+            required
+            placeholder="Email address"
+            data-cy="username"
+          >
+          <input
+            id="password"
+            v-model="password"
+            type="password"
+            required
+            placeholder="Password"
+            data-cy="password1"
+          >
+          <input
+            id="confirmPassword"
+            v-model="confirmPassword"
+            type="password"
+            required
+            placeholder="Confirm Password"
+            data-cy="password2"
+          >
+          <button
+            type="submit"
+            data-cy="signup-button"
+          >
+            SIGN UP
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

@@ -1,18 +1,51 @@
 <template>
-    <div>
-        <div class="img">
-            <img src="../assets/chess1.8ddb93c1.jpg" alt="myChess image 1" class="left-image" />
-            <div class="form">
-                <h1 class="title">Log In</h1>
-                <form @submit.prevent="logIn" class="form">
-                    <input type="email" id="email" v-model="email" required placeholder="Email address" data-cy="username"/>
-                    <input type="password" id="password" v-model="password" required placeholder="Password" data-cy="password"/>
-                    <p v-if="errorMessage" data-cy="error-message">{{ errorMessage }}</p>
-                    <button type="submit" data-cy="login-button">LOG IN</button>
-                </form>
-            </div>
-        </div>
+  <div>
+    <div class="img">
+      <img
+        src="../assets/chess1.8ddb93c1.jpg"
+        alt="myChess image 1"
+        class="left-image"
+      >
+      <div class="form">
+        <h1 class="title">
+          Log In
+        </h1>
+        <form
+          class="form"
+          @submit.prevent="logIn"
+        >
+          <input
+            id="email"
+            v-model="email"
+            type="email"
+            required
+            placeholder="Email address"
+            data-cy="username"
+          >
+          <input
+            id="password"
+            v-model="password"
+            type="password"
+            required
+            placeholder="Password"
+            data-cy="password"
+          >
+          <p
+            v-if="errorMessage"
+            data-cy="error-message"
+          >
+            {{ errorMessage }}
+          </p>
+          <button
+            type="submit"
+            data-cy="login-button"
+          >
+            LOG IN
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

@@ -1,15 +1,20 @@
 <template>
-    <div class="container">
-      <div class="card">
-        <div class="form">
-          <h1 class="title" data-cy="logoutPage">Log Out</h1>
-          <p class="paragraph">
-            You will be redirected to home in 5 seconds
-          </p>
-        </div>
+  <div class="container">
+    <div class="card">
+      <div class="form">
+        <h1
+          class="title"
+          data-cy="logoutPage"
+        >
+          Log Out
+        </h1>
+        <p class="paragraph">
+          You will be redirected to home in 5 seconds
+        </p>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import { useRouter } from 'vue-router'; 

@@ -1,22 +1,55 @@
 <template>
   <div class="container">
-    <h1 class="title">Create or Join a Game</h1>
+    <h1 class="title">
+      Create or Join a Game
+    </h1>
     <div class="form-container">
-      <form @submit.prevent="submitForm" class="form">
+      <form
+        class="form"
+        @submit.prevent="submitForm"
+      >
         <div class="form-group">
           <label for="selectGame">Select Game Type:</label>
-          <select id="selectGame" v-model="selectedGameType" class="form-control">
+          <select
+            id="selectGame"
+            v-model="selectedGameType"
+            class="form-control"
+          >
             <option value="game_join_any">Join any game</option>
             <option value="join_specific_game">Join specific game (gameID required)</option>
           </select>
         </div>
-        <div v-if="selectedGameType === 'join_specific_game'" class="form-group">
-          <label for="gameID" data-cy="gameID">Enter gameID:</label>
-          <input type="text" id="gameID" v-model="gameID" class="form-control" data-cy="gameID">
+        <div
+          v-if="selectedGameType === 'join_specific_game'"
+          class="form-group"
+        >
+          <label
+            for="gameID"
+            data-cy="gameID"
+          >Enter gameID:</label>
+          <input
+            id="gameID"
+            v-model="gameID"
+            type="text"
+            class="form-control"
+            data-cy="gameID"
+          >
         </div>
-        <button type="submit" class="btn btn-primary" data-cy="createGame-button" @click="createGame">Create/Join
-          Game</button>
-        <p v-if="errorMessage" data-cy="error-message">{{ errorMessage }}</p>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          data-cy="createGame-button"
+          @click="createGame"
+        >
+          Create/Join
+          Game
+        </button>
+        <p
+          v-if="errorMessage"
+          data-cy="error-message"
+        >
+          {{ errorMessage }}
+        </p>
       </form>
     </div>
   </div>

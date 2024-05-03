@@ -166,7 +166,7 @@ class ChessConsumer(AsyncWebsocketConsumer):
                     {
                             'type': 'move_cb',
                             'type_': 'error',
-                            'message': f"Invalid game with id {self.game_id} {playerID} {self.user_id}",
+                            'message': f"Invalid game with id {self.game_id}",
                     })
                 return
             if game_valid is False:
@@ -175,7 +175,8 @@ class ChessConsumer(AsyncWebsocketConsumer):
                     {
                             'type': 'move_cb',
                             'type_': 'error',
-                            'message': "Error: invalid move (game is not active)",
+                            'message': "Error: invalid move (game is not "
+                                       "active)",
                     })
                 return
             save = await database_sync_to_async(self.salvarMovimiento)(
@@ -202,7 +203,7 @@ class ChessConsumer(AsyncWebsocketConsumer):
                     'promotion': promotion
                 })
             return True
-        
+
         await self.channel_layer.group_send(
                     self.room_group_name,
                     {
